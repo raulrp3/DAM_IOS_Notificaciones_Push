@@ -36,8 +36,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             guard settings.authorizationStatus == .authorized else { return }
             
-            UIApplication.shared.registerForRemoteNotifications()
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         }
+    }
+    
+    //SE HA COMPLETADO EL REGISTRO CON APNs
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
+        let tokenParts = deviceToken.map{ data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        
+        print("Device token: \(token)")
+    }
+    
+    //SI FALLA EL REGISTRO CON APNs
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error){
+        print("Error en el registro: \(error)")
     }
 
     // MARK: UISceneSession Lifecycle
