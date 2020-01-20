@@ -33,6 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func getNotificationsSettings(){
         UNUserNotificationCenter.current().getNotificationSettings{ settings in
             print("Configuración push: \(settings)")
+            
+            guard settings.authorizationStatus == .authorized else { return }
+            
+            UIApplication.shared.registerForRemoteNotifications()
         }
     }
 
